@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles(() => ({
   card: {
     height: '100%',
+    cursor: 'pointer',
   },
   cardContent: {
     paddingBottom: '0.5em',
@@ -49,16 +50,18 @@ const useStyles = makeStyles(() => ({
 const UserCard = props => {
   const classes = useStyles();
 
-  const { firstName, lastName, applications } = props;
+  const { userData, handleUserClick } = props;
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} onClick={() => handleUserClick(userData)}>
       <CardContent className={classes.cardContent}>
         <Box className={classes.nameWrapper}>
           <Avatar className={classes.avatar} />
-          <Typography className={classes.name}>{`${firstName} ${lastName}`}</Typography>
+          <Typography
+            className={classes.name}
+          >{`${userData.firstName} ${userData.lastName}`}</Typography>
         </Box>
         <Box className={classes.appsWrapper}>
-          {applications.map((app, idx) => (
+          {userData.applications.map((app, idx) => (
             <Chip
               label={app}
               variant="outlined"
