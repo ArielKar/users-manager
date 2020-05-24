@@ -1,6 +1,8 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
-import Header from './Components/Header';
+import { Grid, Container } from '@material-ui/core';
+import Header from './components/Header';
+import UsersManager from './containers/UsersManager';
+import { HEADER_HEIGHT } from './constants';
 
 function App() {
   return (
@@ -9,11 +11,13 @@ function App() {
         <Header />
       </Grid>
       <Grid item container>
-        <Grid xs={0} sm={2} />
-        <Grid item xs={12} sm={8}>
-          This is the main content
+        <Grid item xs={false} sm={1} />
+        <Grid item xs={12} sm={10}>
+          <Container style={{ paddingTop: HEADER_HEIGHT }}>
+            <UsersManager />
+          </Container>
         </Grid>
-        <Grid xs={0} sm={2} />
+        <Grid item xs={false} sm={1} />
       </Grid>
     </Grid>
   );

@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
 const Header = () => {
   const classes = useStyles();
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Toolbar>
         <Box>
           <Box className={classes.logoWrapper}>
