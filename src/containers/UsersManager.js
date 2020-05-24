@@ -16,7 +16,9 @@ import { makeStyles } from '@material-ui/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import { connect } from 'react-redux';
 import { closeDrawerAction } from '../store/ui/actions';
-import { handleUserSelect } from '../store/users/actions';
+import { handleUserSelect, handleNewUserRequest } from '../store/users/actions';
+import { getFilteredUsers } from '../store/users/selectors';
+import UsersDrawerContent from '../components/UsersDrawerContent';
 
 const useStyles = makeStyles(() => ({
   topBarWrapper: {
@@ -50,11 +52,22 @@ const useStyles = makeStyles(() => ({
 }));
 
 const UsersManager = props => {
-  const { usersList, onCloseDrawer, userSelected, isDrawerOpen, selectedUserData } = props;
+  const {
+    usersList,
+    onCloseDrawer,
+    userSelected,
+    isDrawerOpen,
+    newUserClick,
+    usersDrawerContentType,
+  } = props;
   const classes = useStyles();
 
   const onUserSelect = userData => {
     userSelected(userData);
+  };
+
+  const hanleNewUserClick = () => {
+    newUserClick();
   };
   return (
     <>
@@ -65,7 +78,7 @@ const UsersManager = props => {
             <Container>
               <Box className={classes.topBar}>
                 <Typography variant="h4">Users</Typography>
-                <Button color="primary" variant="contained">
+                <Button color="primary" variant="contained" onClick={hanleNewUserClick}>
                   New User
                 </Button>
               </Box>
@@ -105,13 +118,7 @@ const UsersManager = props => {
         </Grid>
       </Grid>
       <Drawer anchor="right" open={isDrawerOpen} onClose={onCloseDrawer}>
-        {selectedUserData && (
-          <>
-            <p>{selectedUserData.firstName}</p>
-            <p>{selectedUserData.lastName}</p>
-            <p>{selectedUserData.email}</p>
-          </>
-        )}
+        <UsersDrawerContent drawerContentType={usersDrawerContentType} />
       </Drawer>
     </>
   );
@@ -120,8 +127,8 @@ const UsersManager = props => {
 const mapStateToProps = state => {
   return {
     isDrawerOpen: state.ui.isDrawerOpen,
-    usersList: state.users.usersList,
-    selectedUserData: state.users.selectedUserData,
+    usersList: getFilteredUsers(state),
+    usersDrawerContentType: state.users.usersDrawerContentType,
   };
 };
 
@@ -129,6 +136,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onCloseDrawer: () => dispatch(closeDrawerAction()),
     userSelected: userData => dispatch(handleUserSelect(userData)),
+    newUserClick: () => dispatch(handleNewUserRequest()),
   };
 };
 
