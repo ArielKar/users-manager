@@ -11,7 +11,6 @@ import {
   Select,
   Button,
   makeStyles,
-  MenuItem,
   InputLabel,
   FormControl,
   IconButton,
@@ -79,8 +78,8 @@ const UserDetails = props => {
         <Typography>Applications & Roles</Typography>
         <Divider />
         <List>
-          {selectedUserData.applications.map((app, idx, appList) => (
-            <>
+          {selectedUserData.applications.map((app, idx) => (
+            <React.Fragment key={`userDetailsAppItem${idx}`}>
               <ListItem className={classes.applicationItem}>
                 <Typography>{app}</Typography>
                 <IconButton>
@@ -88,7 +87,7 @@ const UserDetails = props => {
                 </IconButton>
               </ListItem>
               <Divider />
-            </>
+            </React.Fragment>
           ))}
         </List>
         <Paper className={classes.selectWrapper}>
