@@ -9,9 +9,11 @@ import {
   InputAdornment,
   Container,
   Drawer,
+  IconButton,
 } from '@material-ui/core';
 import { APPLICATIONS_LIST } from '../constants';
 import { makeStyles } from '@material-ui/styles';
+import ClearIcon from '@material-ui/icons/Clear';
 import SearchIcon from '@material-ui/icons/Search';
 import { connect } from 'react-redux';
 import { closeDrawerAction } from '../store/ui/actions';
@@ -49,6 +51,7 @@ const useStyles = makeStyles(() => ({
     '& .MuiOutlinedInput-root': {
       height: '40px',
       borderRadius: '20px',
+      backgroundColor: '#fff',
     },
   },
   filtersWrapper: {
@@ -60,6 +63,13 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap',
+  },
+  rounded: {
+    borderRadius: '20px',
+  },
+  newUserBtn: {
+    paddingLeft: '2em',
+    paddingRight: '2em',
   },
 }));
 
@@ -114,7 +124,12 @@ const UsersManager = props => {
             <Container>
               <Box className={classes.topBar}>
                 <Typography variant="h4">Users</Typography>
-                <Button color="primary" variant="contained" onClick={hanleNewUserClick}>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={hanleNewUserClick}
+                  className={`${classes.newUserBtn} ${classes.rounded}`}
+                >
                   New User
                 </Button>
               </Box>
@@ -136,14 +151,25 @@ const UsersManager = props => {
                   <SearchIcon color="disabled" />
                 </InputAdornment>
               ),
+              endAdornment: (
+                <InputAdornment
+                  position="end"
+                  style={
+                    searchTerm ? { cursor: 'pointer' } : { visibility: 'hidden', cursor: 'pointer' }
+                  }
+                >
+                  <ClearIcon color="disabled" onClick={() => setSearchTerm('')} />
+                </InputAdornment>
+              ),
             }}
           />
           <Box className={classes.filtersWrapper}>
-            <Typography>Filters:</Typography>
+            <Typography style={{ fontSize: '14px' }}>Filters:</Typography>
             <Box className={classes.filtersBtnsWrapper}>
               {APPLICATIONS_LIST.map((app, idx) => (
                 <Button
                   key={`appFilterBtn${idx}`}
+                  className={classes.rounded}
                   style={{ marginLeft: '10px', marginBottom: '0.5em' }}
                   variant="outlined"
                   color={filterAppList.includes(app) ? 'primary' : 'default'}

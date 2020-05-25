@@ -22,7 +22,7 @@ import { handleNewUser } from '../store/users/actions';
 const useStyles = makeStyles(theme => {
   return {
     detailsWrapper: {
-      backgroundSize: '100% 64%',
+      backgroundSize: '100% 62%',
       backgroundImage: 'linear-gradient(to right, #47A3B5 , #76E2C0)',
       backgroundRepeat: 'no-repeat',
       paddingTop: '8em',
@@ -114,8 +114,10 @@ const AddUser = ({ addUser }) => {
     <Box style={{ width: '100%' }}>
       <Box className={classes.detailsWrapper}>
         <Avatar className={classes.avatar} />
-        <Typography>{getFullName()}</Typography>
-        <Typography>{userFormData.email || <span>&nbsp;</span>}</Typography>
+        <Typography style={{ fontSize: '24px', fontWeight: 'bold' }}>{getFullName()}</Typography>
+        <Typography style={{ color: 'grey' }}>
+          {userFormData.email || <span>&nbsp;</span>}
+        </Typography>
       </Box>
       <Box className={classes.formContainer}>
         <form className={classes.form}>

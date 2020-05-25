@@ -25,7 +25,7 @@ import {
 
 const useStyles = makeStyles(() => ({
   detailsWrapper: {
-    backgroundSize: '100% 64%',
+    backgroundSize: '100% 62%',
     backgroundImage: 'linear-gradient(to right, #47A3B5 , #76E2C0)',
     backgroundRepeat: 'no-repeat',
     paddingTop: '8em',
@@ -107,8 +107,8 @@ const UserDetails = props => {
           <DeleteIcon style={{ color: '#fff' }} />
         </IconButton>
         <Avatar className={classes.avatar} />
-        <Typography>{fullName}</Typography>
-        <Typography>{selectedUserData.email}</Typography>
+        <Typography style={{ fontSize: '24px', fontWeight: 'bold' }}>{fullName}</Typography>
+        <Typography style={{ color: 'grey' }}>{selectedUserData.email}</Typography>
       </Box>
       <Box className={classes.appsAndRolesWrapper}>
         <Typography>Applications & Roles</Typography>

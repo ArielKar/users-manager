@@ -10,20 +10,67 @@ import {
   DELETE_USER,
 } from './actions';
 
-const getUsersMock = () => {
-  return Array(8)
-    .fill({})
-    .map(i => ({
-      id: uuid(),
-      email: 'john@doe.com',
-      firstName: 'John',
-      lastName: 'Doe',
-      applications: ['Interactbot'],
-    }));
-};
+const dummyUsers = [
+  {
+    id: uuid(),
+    firstName: 'Noy',
+    lastName: 'Tsemach',
+    email: 'noyt@coo.com',
+    applications: ['Interactbot', 'Conversationow', 'Paperless'],
+  },
+  {
+    id: uuid(),
+    firstName: 'Shahar',
+    lastName: 'Ziv',
+    email: 'shaharz@coo.com',
+    applications: ['Interactbot', 'Conversationow'],
+  },
+  {
+    id: uuid(),
+    firstName: 'John',
+    lastName: 'Dan',
+    email: 'johnd@coo.com',
+    applications: ['Conversationow', 'Paperless'],
+  },
+  {
+    id: uuid(),
+    firstName: 'Jack',
+    lastName: 'Wall',
+    email: 'jackw@coo.com',
+    applications: ['Interactbot', 'Paperless'],
+  },
+  {
+    id: uuid(),
+    firstName: 'James',
+    lastName: 'Dean',
+    email: 'jamesd@coo.com',
+    applications: ['Conversationow'],
+  },
+  {
+    id: uuid(),
+    firstName: 'Dani',
+    lastName: 'Roop',
+    email: 'danir@coo.com',
+    applications: ['Paperless'],
+  },
+  {
+    id: uuid(),
+    firstName: 'Mark',
+    lastName: 'Knofler',
+    email: 'markk@coo.com',
+    applications: ['Paperless'],
+  },
+  {
+    id: uuid(),
+    firstName: 'John',
+    lastName: 'Pertucci',
+    email: 'johnp@coo.com',
+    applications: ['Paperless', 'Interactbot'],
+  },
+];
 
 const initialState = {
-  usersList: getUsersMock(),
+  usersList: dummyUsers,
   selectedUserData: null,
   searchTerm: '',
   applicationsToFilter: [],

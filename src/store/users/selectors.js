@@ -19,21 +19,19 @@ export const getFilteredUsers = createSelector(
 );
 
 const filterBySearchTerm = (searchTerm, users) => {
+  const normalizedSearchTerm = searchTerm.toLowerCase().trim().replace(/\s/, '');
   return users.filter(user => {
-    for (const key in user) {
-      if (typeof user[key] === 'string' && user[key].match(searchTerm)) {
-        return true;
-      }
-    }
-    return false;
+    const normalizedName = (user.firstName + user.lastName).toLowerCase().trim().replace(/\s/, '');
+    return normalizedName.includes(normalizedSearchTerm);
   });
 };
 
 const filterByApplications = (applicationsToFilter, users) => {
   return users.filter(user => {
+    let matched = true;
     for (const app of applicationsToFilter) {
-      return user.applications.includes(app);
+      matched = matched && user.applications.includes(app);
     }
-    return false;
+    return matched;
   });
 };
