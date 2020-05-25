@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import {
   Box,
@@ -16,6 +16,12 @@ import {
   IconButton,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { APPLICATIONS_LIST } from '../constants';
+import {
+  addApplicationToUserAction,
+  removeApplicationFromUser,
+  handleDeleteUser,
+} from '../store/users/actions';
 
 const useStyles = makeStyles(() => ({
   detailsWrapper: {
@@ -61,15 +67,45 @@ const useStyles = makeStyles(() => ({
     color: 'grey',
     width: '80px',
   },
+  deleteButton: {
+    position: 'absolute',
+    top: '8px',
+    right: '8px',
+    border: '2px solid #fff',
+    padding: '8px',
+  },
 }));
 
 const UserDetails = props => {
-  const { selectedUserData } = props;
+  const { selectedUserData, addApplicationToUser, removeApplicationFromUser, deleteUser } = props;
+
+  const [selectedApp, setSelectedApp] = useState('');
   const classes = useStyles();
   const fullName = `${selectedUserData.firstName} ${selectedUserData.lastName}`;
+
+  const handleAppSelect = e => {
+    setSelectedApp(e.target.value);
+  };
+
+  const handleAppAdd = () => {
+    if (!selectedApp || selectedUserData.applications.includes(selectedApp)) return;
+    addApplicationToUser(selectedUserData.id, selectedApp);
+  };
+
+  const removeAppFromUser = idx => {
+    removeApplicationFromUser(selectedUserData.id, idx);
+  };
+
+  const handleDeleteUserClick = () => {
+    deleteUser(selectedUserData.id);
+  };
+
   return (
     <Box style={{ width: '100%' }}>
       <Box className={classes.detailsWrapper}>
+        <IconButton onClick={handleDeleteUserClick} className={classes.deleteButton}>
+          <DeleteIcon style={{ color: '#fff' }} />
+        </IconButton>
         <Avatar className={classes.avatar} />
         <Typography>{fullName}</Typography>
         <Typography>{selectedUserData.email}</Typography>
@@ -82,7 +118,7 @@ const UserDetails = props => {
             <React.Fragment key={`userDetailsAppItem${idx}`}>
               <ListItem className={classes.applicationItem}>
                 <Typography>{app}</Typography>
-                <IconButton>
+                <IconButton onClick={() => removeAppFromUser(idx)}>
                   <DeleteIcon />
                 </IconButton>
               </ListItem>
@@ -95,21 +131,23 @@ const UserDetails = props => {
             <InputLabel htmlFor="filled-application-native-simple">Application</InputLabel>
             <Select
               className={classes.select}
+              onChange={handleAppSelect}
+              value={selectedApp}
               native
-              //   value={state.age}
-              //   onChange={handleChange}
               inputProps={{
                 name: 'application',
                 id: 'filled-application-native-simple',
               }}
             >
-              <option aria-label="None" value="" />
-              <option value={10}>Ten</option>
-              <option value={20}>Twenty</option>
-              <option value={30}>Thirty</option>
+              <option value={''}></option>
+              {APPLICATIONS_LIST.map((app, idx) => (
+                <option value={app} key={`userDetailsAppItem${idx}`}>
+                  {app}
+                </option>
+              ))}
             </Select>
           </FormControl>
-          <Button variant="outlined" className={classes.addBtn}>
+          <Button variant="outlined" className={classes.addBtn} onClick={handleAppAdd}>
             Add
           </Button>
         </Paper>
@@ -125,7 +163,12 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    addApplicationToUser: (id, app) => dispatch(addApplicationToUserAction(id, app)),
+    removeApplicationFromUser: (userId, index) =>
+      dispatch(removeApplicationFromUser(userId, index)),
+    deleteUser: id => dispatch(handleDeleteUser(id)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDetails);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import UserCard from '../components/UserCard';
 import {
   Grid,
@@ -7,7 +7,6 @@ import {
   Button,
   TextField,
   InputAdornment,
-  ButtonGroup,
   Container,
   Drawer,
 } from '@material-ui/core';
@@ -16,7 +15,12 @@ import { makeStyles } from '@material-ui/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import { connect } from 'react-redux';
 import { closeDrawerAction } from '../store/ui/actions';
-import { handleUserSelect, handleNewUserRequest } from '../store/users/actions';
+import {
+  handleUserSelect,
+  handleNewUserRequest,
+  setSearchTermAction,
+  setApplicationsFilterAction,
+} from '../store/users/actions';
 import { getFilteredUsers } from '../store/users/selectors';
 import UsersDrawerContent from '../components/UsersDrawerContent';
 
@@ -59,8 +63,32 @@ const UsersManager = props => {
     isDrawerOpen,
     newUserClick,
     usersDrawerContentType,
+    updateSearchTerm,
+    updateApplicationsFilter,
   } = props;
   const classes = useStyles();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterAppList, setFilterAppList] = useState([]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      updateSearchTerm(searchTerm);
+      updateApplicationsFilter(filterAppList);
+    }, 300);
+    return () => clearTimeout(timer);
+  });
+
+  const handleSearchChange = e => {
+    setSearchTerm(e.target.value);
+  };
+
+  const addRemoveToAppsFilterList = app => {
+    if (filterAppList.includes(app)) {
+      setFilterAppList(filterAppList.filter(fApp => fApp !== app));
+    } else {
+      setFilterAppList(filterAppList.concat(app));
+    }
+  };
 
   const onUserSelect = userData => {
     userSelected(userData);
@@ -92,6 +120,8 @@ const UsersManager = props => {
             id="users-search"
             placeholder="Search"
             variant="outlined"
+            value={searchTerm}
+            onChange={handleSearchChange}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -102,11 +132,17 @@ const UsersManager = props => {
           />
           <Box className={classes.filtersWrapper}>
             <Typography>Filters:</Typography>
-            <ButtonGroup variant="outlined">
-              {APPLICATIONS_LIST.map((app, idx) => (
-                <Button key={`appFilterBtn${idx}`}>{app}</Button>
-              ))}
-            </ButtonGroup>
+            {APPLICATIONS_LIST.map((app, idx) => (
+              <Button
+                key={`appFilterBtn${idx}`}
+                style={{ marginLeft: '10px' }}
+                variant="outlined"
+                color={filterAppList.includes(app) ? 'primary' : 'default'}
+                onClick={() => addRemoveToAppsFilterList(app)}
+              >
+                {app}
+              </Button>
+            ))}
           </Box>
         </Grid>
         <Grid container item spacing={4}>
@@ -137,6 +173,8 @@ const mapDispatchToProps = dispatch => {
     onCloseDrawer: () => dispatch(closeDrawerAction()),
     userSelected: userData => dispatch(handleUserSelect(userData)),
     newUserClick: () => dispatch(handleNewUserRequest()),
+    updateSearchTerm: searchTerm => dispatch(setSearchTermAction(searchTerm)),
+    updateApplicationsFilter: appsFilters => dispatch(setApplicationsFilterAction(appsFilters)),
   };
 };
 
