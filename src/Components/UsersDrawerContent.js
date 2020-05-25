@@ -17,11 +17,7 @@ const UsersDrawerContent = props => {
     return null;
   };
 
-  return (
-    <Grid container style={{ width: '400px' }}>
-      {contentRenderer()}
-    </Grid>
-  );
+  return <Grid container>{contentRenderer()}</Grid>;
 };
 
 export default UsersDrawerContent;

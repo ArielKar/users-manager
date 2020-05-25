@@ -56,7 +56,7 @@ const useStyles = makeStyles(() => ({
     marginTop: '2em',
   },
   formControl: {
-    width: '40%',
+    width: '55%',
   },
   select: {
     backgroundColor: 'transparent',

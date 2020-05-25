@@ -42,8 +42,10 @@ const useStyles = makeStyles(() => ({
   searchSection: {
     margin: '6em 0 4em 0',
     justifyContent: 'space-between',
+    alignItems: 'end',
   },
   searchInput: {
+    marginBottom: '1em',
     '& .MuiOutlinedInput-root': {
       height: '40px',
       borderRadius: '20px',
@@ -51,7 +53,13 @@ const useStyles = makeStyles(() => ({
   },
   filtersWrapper: {
     display: 'flex',
+    alignItems: 'baseline',
+    flexWrap: 'wrap',
+  },
+  filtersBtnsWrapper: {
+    display: 'flex',
     alignItems: 'center',
+    flexWrap: 'wrap',
   },
 }));
 
@@ -132,17 +140,19 @@ const UsersManager = props => {
           />
           <Box className={classes.filtersWrapper}>
             <Typography>Filters:</Typography>
-            {APPLICATIONS_LIST.map((app, idx) => (
-              <Button
-                key={`appFilterBtn${idx}`}
-                style={{ marginLeft: '10px' }}
-                variant="outlined"
-                color={filterAppList.includes(app) ? 'primary' : 'default'}
-                onClick={() => addRemoveToAppsFilterList(app)}
-              >
-                {app}
-              </Button>
-            ))}
+            <Box className={classes.filtersBtnsWrapper}>
+              {APPLICATIONS_LIST.map((app, idx) => (
+                <Button
+                  key={`appFilterBtn${idx}`}
+                  style={{ marginLeft: '10px', marginBottom: '0.5em' }}
+                  variant="outlined"
+                  color={filterAppList.includes(app) ? 'primary' : 'default'}
+                  onClick={() => addRemoveToAppsFilterList(app)}
+                >
+                  {app}
+                </Button>
+              ))}
+            </Box>
           </Box>
         </Grid>
         <Grid container item spacing={4}>
@@ -153,7 +163,14 @@ const UsersManager = props => {
           ))}
         </Grid>
       </Grid>
-      <Drawer anchor="right" open={isDrawerOpen} onClose={onCloseDrawer}>
+      <Drawer
+        anchor="right"
+        open={isDrawerOpen}
+        onClose={onCloseDrawer}
+        PaperProps={{
+          style: { maxWidth: '400px', width: '80%' },
+        }}
+      >
         <UsersDrawerContent drawerContentType={usersDrawerContentType} />
       </Drawer>
     </>

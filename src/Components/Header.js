@@ -2,9 +2,12 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import logo from '../assets/logo_coognitive.svg';
+import { HEADER_HEIGHT } from '../constants';
 
 const useStyles = makeStyles(() => ({
-  logoWrapper: {},
+  header: {
+    height: HEADER_HEIGHT,
+  },
   logo: {
     height: '25px',
   },
@@ -20,10 +23,10 @@ const useStyles = makeStyles(() => ({
 const Header = () => {
   const classes = useStyles();
   return (
-    <AppBar position="fixed">
+    <AppBar position="fixed" className={classes.header}>
       <Toolbar>
         <Box>
-          <Box className={classes.logoWrapper}>
+          <Box>
             <img src={logo} className={classes.logo} alt="company logo" />
           </Box>
           <Box className={classes.pageNameWrapper}>
