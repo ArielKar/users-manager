@@ -19,7 +19,7 @@ export const getFilteredUsers = createSelector(
 );
 
 const filterBySearchTerm = (searchTerm, users) => {
-  const normalizedSearchTerm = searchTerm.toLowerCase().trim().replace(/\s/, '');
+  const normalizedSearchTerm = searchTerm.toLowerCase().trim().replace(/\s/g, '');
   return users.filter(user => {
     const normalizedName = (user.firstName + user.lastName).toLowerCase().trim().replace(/\s/, '');
     return normalizedName.includes(normalizedSearchTerm);

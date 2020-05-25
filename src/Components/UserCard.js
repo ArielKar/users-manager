@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Typography, Avatar, CardContent, Box, Chip } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/styles';
+import { toTitleCase } from '../utils/stringsUtils';
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -56,9 +57,9 @@ const UserCard = props => {
       <CardContent className={classes.cardContent}>
         <Box className={classes.nameWrapper}>
           <Avatar className={classes.avatar} />
-          <Typography
-            className={classes.name}
-          >{`${userData.firstName} ${userData.lastName}`}</Typography>
+          <Typography className={classes.name}>
+            {toTitleCase(`${userData.firstName} ${userData.lastName}`)}
+          </Typography>
         </Box>
         <Box className={classes.appsWrapper}>
           {userData.applications.map((app, idx) => (

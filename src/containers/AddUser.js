@@ -18,6 +18,7 @@ import { APPLICATIONS_LIST } from '../constants';
 import { validateForm } from '../utils/validations';
 import { connect } from 'react-redux';
 import { handleNewUser } from '../store/users/actions';
+import { toTitleCase } from '../utils/stringsUtils';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -84,7 +85,7 @@ const AddUser = ({ addUser }) => {
   const classes = useStyles();
   const getFullName = () => {
     if (userFormData.firstName || userFormData.lastName) {
-      return `${userFormData.firstName} ${userFormData.lastName}`;
+      return toTitleCase(`${userFormData.firstName} ${userFormData.lastName}`);
     }
     return <span>&nbsp;</span>;
   };

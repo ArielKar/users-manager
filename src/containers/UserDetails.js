@@ -22,6 +22,7 @@ import {
   removeApplicationFromUser,
   handleDeleteUser,
 } from '../store/users/actions';
+import { toTitleCase } from '../utils/stringsUtils';
 
 const useStyles = makeStyles(() => ({
   detailsWrapper: {
@@ -81,7 +82,7 @@ const UserDetails = props => {
 
   const [selectedApp, setSelectedApp] = useState('');
   const classes = useStyles();
-  const fullName = `${selectedUserData.firstName} ${selectedUserData.lastName}`;
+  const fullName = toTitleCase(`${selectedUserData.firstName} ${selectedUserData.lastName}`);
 
   const handleAppSelect = e => {
     setSelectedApp(e.target.value);

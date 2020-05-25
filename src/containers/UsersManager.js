@@ -9,7 +9,6 @@ import {
   InputAdornment,
   Container,
   Drawer,
-  IconButton,
 } from '@material-ui/core';
 import { APPLICATIONS_LIST } from '../constants';
 import { makeStyles } from '@material-ui/styles';
